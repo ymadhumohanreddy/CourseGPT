@@ -187,28 +187,9 @@ const AuthPage = () => {
                 </form>
               </Form>
               
-              <div className="mt-4 relative">
-                <div className="absolute inset-0 flex items-center">
-                  <Separator className="w-full" />
-                </div>
-                <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-background px-2 text-muted-foreground">
-                    Or continue with
-                  </span>
-                </div>
-              </div>
+  
               
-              <div className="mt-4">
-                <Button 
-                  variant="outline" 
-                  className="w-full flex items-center gap-2" 
-                  onClick={handleGoogleSignIn}
-                  disabled={isLoading}
-                >
-                  <GoogleIcon className="h-5 w-5" />
-                  <span>Sign in with Google</span>
-                </Button>
-              </div>
+ 
             </TabsContent>
             <TabsContent value="signup" className="mt-4">
               <Form {...signupForm}>
@@ -270,29 +251,7 @@ const AuthPage = () => {
                   </Button>
                 </form>
               </Form>
-              
-              <div className="mt-4 relative">
-                <div className="absolute inset-0 flex items-center">
-                  <Separator className="w-full" />
-                </div>
-                <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-background px-2 text-muted-foreground">
-                    Or continue with
-                  </span>
-                </div>
-              </div>
-              
-              <div className="mt-4">
-                <Button 
-                  variant="outline" 
-                  className="w-full flex items-center gap-2" 
-                  onClick={handleGoogleSignIn}
-                  disabled={isLoading}
-                >
-                  <GoogleIcon className="h-5 w-5" />
-                  <span>Sign up with Google</span>
-                </Button>
-              </div>
+          
             </TabsContent>
           </Tabs>
         </CardContent>
