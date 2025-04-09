@@ -1,4 +1,4 @@
-
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { 
@@ -10,23 +10,79 @@ import {
   DropdownMenuTrigger 
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { 
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import Sidebar from "./Sidebar";
 import { useAuth } from "@/contexts/AuthContext";
 import { useTheme } from "@/contexts/ThemeContext";
-import { BellIcon, MenuIcon, SunIcon, MoonIcon } from "lucide-react";
+import { 
+  BellIcon, 
+  MenuIcon, 
+  SunIcon, 
+  MoonIcon, 
+  SearchIcon,
+  UserIcon,
+  SettingsIcon,
+  HelpCircleIcon,
+  LogOutIcon,
+  BookOpenIcon
+} from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Fragment } from "react";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+
+type Notification = {
+  id: string;
+  title: string;
+  message: string;
+  read: boolean;
+  createdAt: Date;
+};
 
 export default function Header() {
   const isMobile = useIsMobile();
   const { user, profile, signOut } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
+  const [showSearchBar, setShowSearchBar] = useState(false);
+
+  // Mock notifications data - in a real app, this would come from your backend
+  const [notifications, setNotifications] = useState<Notification[]>([
+    {
+      id: "2",
+      title: "Welcome to CourseGPT",
+      message: "Thanks for joining CourseGPT! Start creating your first course.",
+      read: true,
+      createdAt: new Date(Date.now() - 86400000), // 1 day ago
+    },
+  ]);
+
+  const unreadCount = notifications.filter(n => !n.read).length;
 
   const handleSignOut = async () => {
     await signOut();
     navigate("/auth");
+  };
+
+  const markAsRead = (id: string) => {
+    setNotifications(prev => 
+      prev.map(notification => 
+        notification.id === id 
+          ? { ...notification, read: true } 
+          : notification
+      )
+    );
+  };
+
+  const markAllAsRead = () => {
+    setNotifications(prev => 
+      prev.map(notification => ({ ...notification, read: true }))
+    );
   };
 
   const getInitials = () => {
@@ -64,13 +120,101 @@ export default function Header() {
             <span className="font-bold text-lg">CourseGPT</span>
           </Link>
 
+          <div className="flex-1 flex justify-center">
+            {showSearchBar ? (
+              <div className="relative max-w-md w-full mx-4">
+                <Input 
+                  placeholder="Search courses, lessons..." 
+                  className="w-full pl-10"
+                  autoFocus
+                  onBlur={() => setShowSearchBar(false)}
+                />
+                <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              </div>
+            ) : (
+              <div className="hidden md:block">
+                <Button 
+                  variant="ghost" 
+                  onClick={() => setShowSearchBar(true)} 
+                  className="gap-2"
+                >
+                  <SearchIcon className="h-4 w-4" />
+                  <span>Search...</span>
+                </Button>
+              </div>
+            )}
+          </div>
+
           <div className="flex items-center gap-4">
-            <Button variant="ghost" size="icon" className="relative" asChild>
-              <Link to="/notifications">
-                <BellIcon className="h-4 w-4" />
-                <span className="absolute top-0 right-0 h-2 w-2 rounded-full bg-primary"></span>
-              </Link>
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="relative"
+              onClick={() => setShowSearchBar(true)}
+              title="Search"
+            >
+              <SearchIcon className="h-4 w-4 md:hidden" />
             </Button>
+            
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button variant="ghost" size="icon" className="relative" title="Notifications">
+                  <BellIcon className="h-4 w-4" />
+                  {unreadCount > 0 && (
+                    <Badge 
+                      variant="destructive" 
+                      className="absolute -top-1 -right-1 h-4 w-4 flex items-center justify-center p-0 text-[10px]"
+                    >
+                      {unreadCount}
+                    </Badge>
+                  )}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-80 p-0">
+                <div className="flex items-center justify-between p-4 border-b">
+                  <h3 className="font-medium">Notifications</h3>
+                  {unreadCount > 0 && (
+                    <Button variant="ghost" size="sm" onClick={markAllAsRead}>
+                      Mark all as read
+                    </Button>
+                  )}
+                </div>
+                <div className="max-h-80 overflow-y-auto">
+                  {notifications.length === 0 ? (
+                    <div className="p-4 text-center text-muted-foreground">
+                      No notifications yet
+                    </div>
+                  ) : (
+                    notifications.map((notification) => (
+                      <div 
+                        key={notification.id} 
+                        className={`p-4 border-b last:border-b-0 hover:bg-muted/50 cursor-pointer transition-colors ${notification.read ? '' : 'bg-primary/5'}`}
+                        onClick={() => markAsRead(notification.id)}
+                      >
+                        <div className="flex justify-between items-start gap-2">
+                          <h4 className="font-medium text-sm">{notification.title}</h4>
+                          {!notification.read && (
+                            <div className="h-2 w-2 rounded-full bg-primary mt-1"></div>
+                          )}
+                        </div>
+                        <p className="text-sm text-muted-foreground my-1">{notification.message}</p>
+                        <p className="text-xs text-muted-foreground">
+                          {notification.createdAt.toLocaleTimeString([], { 
+                            hour: '2-digit', 
+                            minute: '2-digit' 
+                          })}
+                        </p>
+                      </div>
+                    ))
+                  )}
+                </div>
+                <div className="p-2 border-t">
+                  <Button variant="ghost" size="sm" className="w-full" onClick={() => navigate('/notifications')}>
+                    View all notifications
+                  </Button>
+                </div>
+              </PopoverContent>
+            </Popover>
             
             <Button 
               variant="ghost" 
@@ -110,14 +254,33 @@ export default function Header() {
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
-                  <Link to="/settings">Settings</Link>
+                  <Link to="/settings/profile" className="flex items-center gap-2 cursor-pointer">
+                    <UserIcon className="h-4 w-4" />
+                    <span>Profile</span>
+                  </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                  <Link to="/help">Help</Link>
+                  <Link to="/settings" className="flex items-center gap-2 cursor-pointer">
+                    <SettingsIcon className="h-4 w-4" />
+                    <span>Settings</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link to="/modules" className="flex items-center gap-2 cursor-pointer">
+                    <BookOpenIcon className="h-4 w-4" />
+                    <span>My Courses</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link to="/help" className="flex items-center gap-2 cursor-pointer">
+                    <HelpCircleIcon className="h-4 w-4" />
+                    <span>Help</span>
+                  </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleSignOut}>
-                  Log out
+                <DropdownMenuItem onClick={handleSignOut} className="flex items-center gap-2 cursor-pointer">
+                  <LogOutIcon className="h-4 w-4" />
+                  <span>Log out</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

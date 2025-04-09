@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
@@ -11,6 +10,8 @@ import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { GoogleIcon } from "@/components/ui/icons";
 
 const loginSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
@@ -31,7 +32,7 @@ type SignupValues = z.infer<typeof signupSchema>;
 const AuthPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("login");
-  const { signIn, signUp } = useAuth();
+  const { signIn, signUp, signInWithGoogle } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -114,6 +115,28 @@ const AuthPage = () => {
     }
   };
 
+  const handleGoogleSignIn = async () => {
+    setIsLoading(true);
+    try {
+      const { error } = await signInWithGoogle();
+      if (error) {
+        toast({
+          title: "Error",
+          description: error.message,
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "An unexpected error occurred with Google sign in.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-background p-4">
       <Card className="w-full max-w-md">
@@ -163,6 +186,29 @@ const AuthPage = () => {
                   </Button>
                 </form>
               </Form>
+              
+              <div className="mt-4 relative">
+                <div className="absolute inset-0 flex items-center">
+                  <Separator className="w-full" />
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                  <span className="bg-background px-2 text-muted-foreground">
+                    Or continue with
+                  </span>
+                </div>
+              </div>
+              
+              <div className="mt-4">
+                <Button 
+                  variant="outline" 
+                  className="w-full flex items-center gap-2" 
+                  onClick={handleGoogleSignIn}
+                  disabled={isLoading}
+                >
+                  <GoogleIcon className="h-5 w-5" />
+                  <span>Sign in with Google</span>
+                </Button>
+              </div>
             </TabsContent>
             <TabsContent value="signup" className="mt-4">
               <Form {...signupForm}>
@@ -224,6 +270,29 @@ const AuthPage = () => {
                   </Button>
                 </form>
               </Form>
+              
+              <div className="mt-4 relative">
+                <div className="absolute inset-0 flex items-center">
+                  <Separator className="w-full" />
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                  <span className="bg-background px-2 text-muted-foreground">
+                    Or continue with
+                  </span>
+                </div>
+              </div>
+              
+              <div className="mt-4">
+                <Button 
+                  variant="outline" 
+                  className="w-full flex items-center gap-2" 
+                  onClick={handleGoogleSignIn}
+                  disabled={isLoading}
+                >
+                  <GoogleIcon className="h-5 w-5" />
+                  <span>Sign up with Google</span>
+                </Button>
+              </div>
             </TabsContent>
           </Tabs>
         </CardContent>
