@@ -1,38 +1,34 @@
-import { useState } from "react";
+import { useState, Fragment } from "react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { 
-  DropdownMenu, 
-  DropdownMenuContent, 
-  DropdownMenuItem, 
-  DropdownMenuLabel, 
-  DropdownMenuSeparator, 
-  DropdownMenuTrigger 
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { 
+import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import Sidebar from "./Sidebar";
 import { useAuth } from "@/contexts/AuthContext";
 import { useTheme } from "@/contexts/ThemeContext";
-import { 
-  BellIcon, 
-  MenuIcon, 
-  SunIcon, 
-  MoonIcon, 
+import {
+  BellIcon,
+  SunIcon,
+  MoonIcon,
   SearchIcon,
   UserIcon,
   SettingsIcon,
   HelpCircleIcon,
   LogOutIcon,
-  BookOpenIcon
+  BookOpenIcon,
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { Fragment } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 
@@ -51,18 +47,17 @@ export default function Header() {
   const navigate = useNavigate();
   const [showSearchBar, setShowSearchBar] = useState(false);
 
-  // Mock notifications data - in a real app, this would come from your backend
   const [notifications, setNotifications] = useState<Notification[]>([
     {
       id: "2",
       title: "Welcome to CourseGPT",
       message: "Thanks for joining CourseGPT! Start creating your first course.",
       read: true,
-      createdAt: new Date(Date.now() - 86400000), // 1 day ago
+      createdAt: new Date(Date.now() - 86400000),
     },
   ]);
 
-  const unreadCount = notifications.filter(n => !n.read).length;
+  const unreadCount = notifications.filter((n) => !n.read).length;
 
   const handleSignOut = async () => {
     await signOut();
@@ -70,18 +65,18 @@ export default function Header() {
   };
 
   const markAsRead = (id: string) => {
-    setNotifications(prev => 
-      prev.map(notification => 
-        notification.id === id 
-          ? { ...notification, read: true } 
+    setNotifications((prev) =>
+      prev.map((notification) =>
+        notification.id === id
+          ? { ...notification, read: true }
           : notification
       )
     );
   };
 
   const markAllAsRead = () => {
-    setNotifications(prev => 
-      prev.map(notification => ({ ...notification, read: true }))
+    setNotifications((prev) =>
+      prev.map((notification) => ({ ...notification, read: true }))
     );
   };
 
@@ -100,21 +95,7 @@ export default function Header() {
     <header className="sticky top-0 z-40 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-14 items-center">
         <div className="flex items-center justify-between w-full gap-4">
-          {isMobile ? (
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="outline" size="icon" className="md:hidden">
-                  <MenuIcon className="h-4 w-4" />
-                  <span className="sr-only">Toggle Menu</span>
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="left" className="pr-0">
-                <Sidebar />
-              </SheetContent>
-            </Sheet>
-          ) : (
-            <Fragment />
-          )}
+          <Fragment />
 
           <Link to="/" className="flex items-center gap-2">
             <span className="font-bold text-lg">CourseGPT</span>
@@ -123,8 +104,8 @@ export default function Header() {
           <div className="flex-1 flex justify-center">
             {showSearchBar ? (
               <div className="relative max-w-md w-full mx-4">
-                <Input 
-                  placeholder="Search courses, lessons..." 
+                <Input
+                  placeholder="Search courses, lessons..."
                   className="w-full pl-10"
                   autoFocus
                   onBlur={() => setShowSearchBar(false)}
@@ -133,9 +114,9 @@ export default function Header() {
               </div>
             ) : (
               <div className="hidden md:block">
-                <Button 
-                  variant="ghost" 
-                  onClick={() => setShowSearchBar(true)} 
+                <Button
+                  variant="ghost"
+                  onClick={() => setShowSearchBar(true)}
                   className="gap-2"
                 >
                   <SearchIcon className="h-4 w-4" />
@@ -146,23 +127,28 @@ export default function Header() {
           </div>
 
           <div className="flex items-center gap-4">
-            <Button 
-              variant="ghost" 
-              size="icon" 
+            <Button
+              variant="ghost"
+              size="icon"
               className="relative"
               onClick={() => setShowSearchBar(true)}
               title="Search"
             >
               <SearchIcon className="h-4 w-4 md:hidden" />
             </Button>
-            
+
             <Popover>
               <PopoverTrigger asChild>
-                <Button variant="ghost" size="icon" className="relative" title="Notifications">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="relative"
+                  title="Notifications"
+                >
                   <BellIcon className="h-4 w-4" />
                   {unreadCount > 0 && (
-                    <Badge 
-                      variant="destructive" 
+                    <Badge
+                      variant="destructive"
                       className="absolute -top-1 -right-1 h-4 w-4 flex items-center justify-center p-0 text-[10px]"
                     >
                       {unreadCount}
@@ -186,22 +172,28 @@ export default function Header() {
                     </div>
                   ) : (
                     notifications.map((notification) => (
-                      <div 
-                        key={notification.id} 
-                        className={`p-4 border-b last:border-b-0 hover:bg-muted/50 cursor-pointer transition-colors ${notification.read ? '' : 'bg-primary/5'}`}
+                      <div
+                        key={notification.id}
+                        className={`p-4 border-b last:border-b-0 hover:bg-muted/50 cursor-pointer transition-colors ${
+                          notification.read ? "" : "bg-primary/5"
+                        }`}
                         onClick={() => markAsRead(notification.id)}
                       >
                         <div className="flex justify-between items-start gap-2">
-                          <h4 className="font-medium text-sm">{notification.title}</h4>
+                          <h4 className="font-medium text-sm">
+                            {notification.title}
+                          </h4>
                           {!notification.read && (
                             <div className="h-2 w-2 rounded-full bg-primary mt-1"></div>
                           )}
                         </div>
-                        <p className="text-sm text-muted-foreground my-1">{notification.message}</p>
+                        <p className="text-sm text-muted-foreground my-1">
+                          {notification.message}
+                        </p>
                         <p className="text-xs text-muted-foreground">
-                          {notification.createdAt.toLocaleTimeString([], { 
-                            hour: '2-digit', 
-                            minute: '2-digit' 
+                          {notification.createdAt.toLocaleTimeString([], {
+                            hour: "2-digit",
+                            minute: "2-digit",
                           })}
                         </p>
                       </div>
@@ -209,20 +201,29 @@ export default function Header() {
                   )}
                 </div>
                 <div className="p-2 border-t">
-                  <Button variant="ghost" size="sm" className="w-full" onClick={() => navigate('/notifications')}>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="w-full"
+                    onClick={() => navigate("/notifications")}
+                  >
                     View all notifications
                   </Button>
                 </div>
               </PopoverContent>
             </Popover>
-            
-            <Button 
-              variant="ghost" 
-              size="icon" 
+
+            <Button
+              variant="ghost"
+              size="icon"
               onClick={toggleTheme}
-              title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+              title={
+                theme === "dark"
+                  ? "Switch to light mode"
+                  : "Switch to dark mode"
+              }
             >
-              {theme === 'dark' ? (
+              {theme === "dark" ? (
                 <SunIcon className="h-4 w-4" />
               ) : (
                 <MoonIcon className="h-4 w-4" />
@@ -236,7 +237,10 @@ export default function Header() {
                   className="relative h-8 w-8 rounded-full"
                 >
                   <Avatar className="h-8 w-8">
-                    <AvatarImage src={profile?.avatar_url || ""} alt={profile?.full_name || "User"} />
+                    <AvatarImage
+                      src={profile?.avatar_url || ""}
+                      alt={profile?.full_name || "User"}
+                    />
                     <AvatarFallback>{getInitials()}</AvatarFallback>
                   </Avatar>
                 </Button>
@@ -254,31 +258,46 @@ export default function Header() {
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
-                  <Link to="/settings/profile" className="flex items-center gap-2 cursor-pointer">
+                  <Link
+                    to="/settings/profile"
+                    className="flex items-center gap-2 cursor-pointer"
+                  >
                     <UserIcon className="h-4 w-4" />
                     <span>Profile</span>
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                  <Link to="/settings" className="flex items-center gap-2 cursor-pointer">
+                  <Link
+                    to="/settings"
+                    className="flex items-center gap-2 cursor-pointer"
+                  >
                     <SettingsIcon className="h-4 w-4" />
                     <span>Settings</span>
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                  <Link to="/modules" className="flex items-center gap-2 cursor-pointer">
+                  <Link
+                    to="/modules"
+                    className="flex items-center gap-2 cursor-pointer"
+                  >
                     <BookOpenIcon className="h-4 w-4" />
                     <span>My Courses</span>
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                  <Link to="/help" className="flex items-center gap-2 cursor-pointer">
+                  <Link
+                    to="/help"
+                    className="flex items-center gap-2 cursor-pointer"
+                  >
                     <HelpCircleIcon className="h-4 w-4" />
                     <span>Help</span>
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleSignOut} className="flex items-center gap-2 cursor-pointer">
+                <DropdownMenuItem
+                  onClick={handleSignOut}
+                  className="flex items-center gap-2 cursor-pointer"
+                >
                   <LogOutIcon className="h-4 w-4" />
                   <span>Log out</span>
                 </DropdownMenuItem>
