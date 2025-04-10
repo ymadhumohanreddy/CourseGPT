@@ -34,12 +34,13 @@ const Help = () => {
 
         <section className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
           <SupportCard
-            icon={<MessageCircleIcon className="h-6 w-6 text-primary" />}
-            title="Chat Support"
-            description="Connect with our support team for real-time assistance."
-            buttonText="Start Chat"
-            href="mailto:yeddulamadhu6@gmail.com"
-          />
+  icon={<MessageCircleIcon className="h-6 w-6 text-primary" />}
+  title="Chat Support"
+  description="Connect with our support team for real-time assistance."
+  buttonText="Start Chat"
+  href="https://www.linkedin.com/in/madhu-yeddula/"
+/>
+
 
           <SupportCard
             icon={<BookOpenIcon className="h-6 w-6 text-primary" />}
@@ -123,18 +124,17 @@ const SupportCard = ({ icon, title, description, buttonText, href }) => (
       <CardDescription>{description}</CardDescription>
 
       {href ? (
-        <a
-          href={href}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-2"
-        >
-          <Button variant="default">{buttonText}</Button>
-        </a>
-      ) : (
-        <Button variant="default" className="mt-2">
-          {buttonText}
+        <Button asChild className="mt-2">
+          <a
+            href={href}
+            target={href.startsWith("http") ? "_blank" : undefined}
+            rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
+          >
+            {buttonText}
+          </a>
         </Button>
+      ) : (
+        <Button className="mt-2">{buttonText}</Button>
       )}
     </CardContent>
   </Card>
