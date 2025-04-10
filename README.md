@@ -1,73 +1,125 @@
-# Welcome to your Lovable project
+[Live Demo → https://coursegptapp.vercel.app/](https://coursegptapp.vercel.app/)
+# CourseGPT
 
-## Project info
+CourseGPT is an AI-powered course authoring platform designed to streamline the creation, organization, and management of online learning content. It enables users to generate structured courses with AI-generated lessons, customizable modules, and rich content editing features.
 
-**URL**: https://lovable.dev/projects/70cfd439-d170-428f-bada-139cda090c79
+---
 
-## How can I edit this code?
+## Features
 
-There are several ways of editing your application.
+### Course and Module Management
+- Complete hierarchy: Courses contain Modules, which contain Lessons
+- Drag-and-drop interface for reordering modules and lessons
+- Full support for creating, editing, and deleting courses, modules, and lessons
 
-**Use Lovable**
+### AI-Powered Content Generation
+- Integrated with Google Gemini 1.5 Flash AI model
+- Automatically generates lessons and assessments based on module topics
+- Customizable parameters: content type, quantity, difficulty level, and context
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/70cfd439-d170-428f-bada-139cda090c79) and start prompting.
+### Rich Text Editing
+- Built-in rich text editor for creating and formatting lesson content
+- Support for headings, lists, links, and inline styling
+- Real-time preview of lesson content
 
-Changes made via Lovable will be committed automatically to this repo.
+### User Authentication
+- Supabase authentication integration
+- Secure login and user-specific content access
+- Protected routes for authorized users only
 
-**Use your preferred IDE**
+### Responsive Design
+- Fully responsive layout
+- Optimized for desktops, tablets, and mobile devices
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Auto-save Functionality
+- Real-time auto-saving of content
+- Toggle option for enabling/disabling auto-save
+- Visual feedback to confirm saved changes
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+### Bulk Actions
+- Multi-select functionality for modules and lessons
+- Bulk deletion and batch operations for efficient content management
 
-Follow these steps:
+### Course Preview Mode
+- Preview courses as end users will see them
+- Switch between editing and preview modes with a single toggle
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+### Expandable/Collapsible Modules
+- Collapse or expand modules for focused content editing
+- Visual indicators for current module states
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+---
 
-# Step 3: Install the necessary dependencies.
-npm i
+## Tech Stack
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+### Frontend
+- **React** – Component-based frontend framework
+- **TypeScript** – Type-safe JavaScript for improved development
+- **Tailwind CSS** – Utility-first CSS framework for custom styling
+- **Shadcn UI** – Component library built on Tailwind
+- **React Router** – Client-side routing
+- **React Query** – Data fetching and caching
+
+### Backend
+- **Supabase** – Backend-as-a-Service platform providing:
+  - PostgreSQL database
+  - Authentication system
+  - Row-level security
+  - Edge Functions for serverless backend logic
+
+### AI Integration
+- **Google Gemini 1.5 Flash** – For educational content generation
+- **REST API** – Direct communication with Gemini API endpoints
+
+### Development Tools
+- **Vite** – Fast build tool and development server
+- **ESLint** – Linting for code quality and consistency
+- **Lucide React** – Icon library
+- **Recharts** – Data visualization and interactive charts
+
+### Additional Libraries
+- **React Hook Form** – Form state management and validation
+- **Zod** – Schema validation
+- **React Markdown** – Rendering markdown content
+- **React Beautiful DnD** – Drag-and-drop support
+- **Sonner** – Toast notification system
+
+### Deployment
+- **Vercel** – Continuous deployment and hosting with fast global delivery
+
+---
+
+## Getting Started
+
+### Prerequisites
+- Node.js (v18+)
+- npm or yarn
+- Supabase account and project setup
+- Google Gemini API Key
+
+### Installation
+```bash
+git clone https://github.com/ymadhumohanreddy/CourseGPT.git
+cd CourseGPT
+npm install
+```
+
+### Environment Setup
+Create a `.env.local` file in the root directory with the following variables:
+```
+VITE_SUPABASE_URL=your_supabase_url
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+VITE_GEMINI_API_KEY=your_gemini_api_key
+```
+
+### Running Locally
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+---
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Contact
 
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/70cfd439-d170-428f-bada-139cda090c79) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes it is!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+For questions, feature requests, or contributions, feel free to open an issue or reach out via [LinkedIn](https://www.linkedin.com/in/ymadhumohanreddy).
+```
