@@ -85,7 +85,7 @@ const Settings = () => {
             <TabsTrigger value="account">Account</TabsTrigger>
             <TabsTrigger value="preferences">Preferences</TabsTrigger>
             <TabsTrigger value="notifications">Notifications</TabsTrigger>
-            <TabsTrigger value="api">API</TabsTrigger>
+            <TabsTrigger value="api">AI Model</TabsTrigger>
           </TabsList>
 
           <TabsContent value="account" className="space-y-4">
@@ -259,29 +259,7 @@ const Settings = () => {
           
           <TabsContent value="api" className="space-y-4">
             <Card>
-              <CardHeader>
-                <CardTitle>API Settings</CardTitle>
-                <CardDescription>
-                  Manage your API keys and integration settings
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="gemini-key">Gemini API Key</Label>
-                  <div className="flex gap-2">
-                    <Input
-                      id="gemini-key"
-                      type="password"
-                      defaultValue="AIzaSyDmYenUZpMg1c-qfj3TFF3-iVrOZmgeSHk"
-                      className="bg-background"
-                    />
-                    <Button variant="outline">Show</Button>
-                  </div>
-                  <p className="text-xs text-muted-foreground">
-                    Your Gemini API key for AI content generation
-                  </p>
-                </div>
-                
+              <CardContent className="space-y-4">            
                 <div className="space-y-2 pt-4">
                   <Label htmlFor="api-model">AI Model</Label>
                   <select
@@ -297,7 +275,7 @@ const Settings = () => {
                   </p>
                 </div>
                 
-                <Button>Save API Settings</Button>
+                <Button>Save Model Settings</Button>
               </CardContent>
             </Card>
           </TabsContent>
