@@ -259,7 +259,7 @@ export default function Header() {
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
                   <Link
-                    to="/settings/profile"
+                    to="/settings"
                     className="flex items-center gap-2 cursor-pointer"
                   >
                     <UserIcon className="h-4 w-4" />
